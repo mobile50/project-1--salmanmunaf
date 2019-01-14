@@ -7,7 +7,7 @@ export default class App extends React.Component {
   constructor() {
     super()
     this.state = {
-      minutes: 1,
+      minutes: 25,
       seconds: 0,
       break: false,
       running: false
@@ -19,13 +19,13 @@ export default class App extends React.Component {
       vibrate()
       if (this.state.break) {
         this.setState({
-          minutes: 1,
+          minutes: 25,
           break: false
         })
       }
       else {
         this.setState({
-          minutes: 2,
+          minutes: 5,
           break: true
         })
       }
@@ -70,13 +70,13 @@ export default class App extends React.Component {
   reset = () => {
     if (this.state.break) {
       this.setState({
-        minutes: 2,
+        minutes: 5,
         seconds: 0,
       })
     }
     else {
       this.setState({
-        minutes: 1,
+        minutes: 25,
         seconds: 0,
       })
     }
@@ -86,7 +86,7 @@ export default class App extends React.Component {
     let minutes
     let seconds
     if (this.state.minutes < 10) {
-      minutes = "0" + this.state.minutes
+      minutes = "0" + this.state.minuteste
     }
     if (this.state.seconds < 10) {
       seconds = "0" + this.state.seconds
