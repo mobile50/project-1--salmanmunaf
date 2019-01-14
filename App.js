@@ -86,7 +86,7 @@ export default class App extends React.Component {
     let minutes
     let seconds
     if (this.state.minutes < 10) {
-      minutes = "0" + this.state.minuteste
+      minutes = "0" + this.state.minutes
     }
     if (this.state.seconds < 10) {
       seconds = "0" + this.state.seconds
