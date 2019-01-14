@@ -1,11 +1,102 @@
+
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import {vibrate} from './utils'
+import { StyleSheet, Text, View, Button } from 'react-native';
 
 export default class App extends React.Component {
+  constructor() {
+    super()
+    this.state = {
+      minutes: 1,
+      seconds: 0,
+      break: false,
+      running: false
+    }
+  }
+
+  decrementTime = () => {
+    if (this.state.minutes === 0 && this.state.seconds === 0) {
+      vibrate()
+      if (this.state.break) {
+        this.setState({
+          minutes: 1,
+          break: false
+        })
+      }
+      else {
+        this.setState({
+          minutes: 2,
+          break: true
+        })
+      }
+    }
+    else {
+      if (this.state.seconds === 0) {
+        this.setState(prevState => ({
+          minutes: prevState.minutes - 1,
+          seconds: 59
+        }))
+      }
+      else {
+        this.setState(prevState => ({
+          seconds: prevState.seconds - 1,
+        }))
+      }
+    }
+  }
+
+  // componentDidMount() {
+  //   this.timerID = setInterval(this.decrementTime, 1000)
+  // }
+
+  componentWillUnmount() {
+    clearInterval(this.timerID);
+  }
+
+  start = () => {
+    this.timerID = setInterval(this.decrementTime, 1000)
+    this.setState({
+      running: true
+    })
+  }
+
+  stop = () => {
+    clearInterval(this.timerID);
+    this.setState({
+      running:false
+    })
+  }
+
+  reset = () => {
+    if (this.state.break) {
+      this.setState({
+        minutes: 2,
+        seconds: 0,
+      })
+    }
+    else {
+      this.setState({
+        minutes: 1,
+        seconds: 0,
+      })
+    }
+  }
+
   render() {
+    let minutes
+    let seconds
+    if (this.state.minutes < 10) {
+      minutes = "0" + this.state.minutes
+    }
+    if (this.state.seconds < 10) {
+      seconds = "0" + this.state.seconds
+    }
     return (
       <View style={styles.container}>
-        <Text>Open up App.js to start working on your app!</Text>
+        <Text style ={styles.time}>{minutes+":"+seconds}</Text>
+        <Button title="Start" onPress={() => this.start()} />
+        <Button title="Stop" onPress={() => this.stop()} />
+        <Button title="Reset" onPress={() => this.reset()} />
       </View>
     );
   }
@@ -18,4 +109,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  time: {
+    fontSize: 30
+  }
 });
